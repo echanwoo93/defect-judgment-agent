@@ -1,0 +1,23 @@
+﻿model,metric,comparison,agent_only_correct(b),other_only_correct(c),p_value
+gpt,period (2026),agent vs direct,61,3,4.742842403537839e-15
+gpt,period (2026),agent vs rag,57,4,4.85494457136415e-13
+gpt,period (2026),agent vs agent_notool,58,3,3.2857397358476703e-14
+gpt,label (contrast),agent vs direct,24,0,1.1920928955078125e-07
+gpt,near (contrast),agent vs direct,12,0,0.00048828125
+gpt,label (contrast),agent vs rag,9,0,0.00390625
+gpt,near (contrast),agent vs rag,7,0,0.015625
+gpt,label (contrast),agent vs agent_norule,12,0,0.00048828125
+gpt,near (contrast),agent vs agent_norule,8,0,0.0078125
+gpt,citation F1 (2026),agent vs direct,ΔF1=+0.645,,0.0
+gpt,citation F1 (2026),agent vs rag,ΔF1=+0.042,,0.0475
+claude,period (2026),agent vs direct,33,3,2.2721360437572002e-07
+claude,period (2026),agent vs rag,36,6,2.8288777684792876e-06
+claude,period (2026),agent vs agent_notool,35,3,6.677873898297548e-08
+claude,label (contrast),agent vs direct,15,0,6.103515625e-05
+claude,near (contrast),agent vs direct,6,0,0.03125
+claude,label (contrast),agent vs rag,2,0,0.5
+claude,near (contrast),agent vs rag,1,0,1.0
+claude,label (contrast),agent vs agent_norule,5,0,0.0625
+claude,near (contrast),agent vs agent_norule,4,0,0.125
+claude,citation F1 (2026),agent vs direct,ΔF1=+0.699,,0.0
+claude,citation F1 (2026),agent vs rag,ΔF1=+0.052,,0.0315
