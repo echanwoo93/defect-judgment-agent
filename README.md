@@ -34,7 +34,7 @@ python code/analyze.py                  # bootstrap CIs and McNemar tests
 python code/run.py --provider gpt --conditions direct rag agent
 python code/run.py --provider gpt --conditions direct rag agent --split contrast
 ```
-Model names are set in `code/config.py` (paper: `gpt-5.1-2025-11-13`, `claude-sonnet-5-5`, October 2026). Responses are cached in `.cache/`; set `RUN_TAG` for independent repeat runs.
+Model names are set in `code/config.py` (paper: `gpt-5.1-2025-11-13`, `claude-sonnet-5-5`, October 2026). Responses are cached in `.cache/`; set `RUN_TAG` (e.g., `RUN_TAG=2`) for independent repeat runs. Result files ending in `_run2` and `_run3` are the repeated runs reported in Appendix B of the paper.
 
 ## Conditions
 
@@ -42,6 +42,7 @@ Model names are set in `code/config.py` (paper: `gpt-5.1-2025-11-13`, `claude-so
 | --- | --- |
 | `direct` | LLM only, no regulatory text |
 | `rag` | one retrieval of articles, one judgment call |
+| `rag_table` | `rag` plus the full Annex 4 DLP table in the prompt (added in revision) |
 | `agent` | fact extraction → version-filtered retrieval → rule engine → warranty tool → judgment → citation guard |
 | `agent_notool`, `agent_norule`, `agent_noversion`, `agent_noguard`, `rag_noversion` | ablations |
 

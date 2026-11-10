@@ -111,10 +111,33 @@ def run_agent(provider, c, version, version_filter=True, use_tool=True, use_rule
     return dict(pred=pred, facts=facts, rule_findings=findings, retrieved=[a["article"] for a in arts], usage=usage)
 
 
+# ---------- 조건 2b: RAG + 담보책임기간 표(시행령 별표 4)를 프롬프트에 제공 (리뷰 대응) ----------
+def _dlp_table():
+    groups = {}
+    for t in TAX:
+        groups.setdefault((t["major"], t["period_years"]), []).append(t["sub"])
+    lines = [f"{m} ({y}년): " + ", ".join(subs) for (m, y), subs in groups.items()]
+    return "\n".join(lines)
+
+DLP_TABLE = _dlp_table()
+
+
+def run_rag_table(provider, c, version):
+    q = c["title"] + " " + c["investigation"]
+    arts = search_articles(q, version, TOP_K)
+    user = (f"{case_text(c)}\n\n[관련 조문]\n{format_articles(arts)}\n\n"
+            f"[공종별 하자담보책임기간 표 (공동주택관리법 시행령 별표 4)]\n{DLP_TABLE}\n\n"
+            f"관련 조문을 근거로 판단하고, cited_articles에는 위 [관련 조문]에 있는 조항만 쓰세요. "
+            f"gongjong은 위 표의 세부공종에서 고르고, warranty_years는 위 표에서 주된 공종의 기간을 찾아 쓰세요.\n{OUT_SCHEMA}")
+    r = call(provider, SYS_JUDGE, user)
+    return dict(pred=r["output"], retrieved=[a["article"] for a in arts], usage=r["usage"])
+
+
 RUNNERS = {
     "direct": run_direct,
     "rag": run_rag,
     "rag_noversion": lambda p, c, v: run_rag(p, c, v, version_filter=False),
+    "rag_table": run_rag_table,
     "agent": run_agent,
     "agent_noversion": lambda p, c, v: run_agent(p, c, v, version_filter=False),
     "agent_notool": lambda p, c, v: run_agent(p, c, v, use_tool=False),
